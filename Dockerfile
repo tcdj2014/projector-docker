@@ -57,15 +57,14 @@ RUN true \
     && set -e \
     && set -x \
     && cat "$HOME/.sdkman/bin/sdkman-init.sh" \
-    && bash source "$HOME/.sdkman/bin/sdkman-init.sh" \
-    && bash sdk version \
-    && bash sdk version \
-    && bash sdk install java 8.0.322-zulu \
-    && bash sdk install gradle 6.8 \
-    && bash npm install -g coffee-script \
-    && bash npm install -g stylus \
-    && bash git config --global user.name  $GIT_NAME \
-    && bash git config --global user.email  $GIT_EMAIL
+    && exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && sdk version \
+    && sdk install java 8.0.322-zulu \
+    && sdk install gradle 6.8 \
+    && npm install -g coffee-script \
+    && npm install -g stylus \
+    && git config --global user.name  $GIT_NAME \
+    && git config --global user.email  $GIT_EMAIL
 
 EXPOSE 8887 8080 9001
 
