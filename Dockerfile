@@ -61,14 +61,17 @@ RUN true \
 RUN true \
     && set -e \
     && set -x \
-    && source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && sudo -i \
+    && su $PROJECTOR_USER_NAME \
+    && /bin/bash source "$HOME/.sdkman/bin/sdkman-init.sh" \
     && sdk version \
     && sdk install java 8.0.322-zulu \
     && sdk install gradle 6.8 \
     && npm install -g coffee-script \
     && npm install -g stylus \
     && git config --global user.name  $GIT_NAME \
-    && git config --global user.email  $GIT_EMAIL
+    && git config --global user.email  $GIT_EMAIL \
+    && git config --list
 
 EXPOSE 8887 8080 9001
 
