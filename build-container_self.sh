@@ -23,4 +23,4 @@ containerName=${1:-idea_u}
 downloadUrl=${2:-https://download.jetbrains.com/idea/ideaIU-2019.3.5.tar.gz}
 
 # build container:
-DOCKER_BUILDKIT=1 docker build --progress=plain -t registry.cn-shanghai.aliyuncs.com/xmtang/idea_u:v1.0 --build-arg buildGradle=true --build-arg "downloadUrl=$downloadUrl" -f Dockerfile ..
+docker build --progress=plain -t registry.cn-shanghai.aliyuncs.com/xmtang/idea_u:v1.0 --build-arg buildGradle=true --build-arg "downloadUrl=$downloadUrl" -f Dockerfile ..
