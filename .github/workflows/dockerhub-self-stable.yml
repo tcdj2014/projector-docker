@@ -15,11 +15,19 @@ env:
     REGISTRY: registry.cn-shanghai.aliyuncs.com
     IMAGE_NAME: ideaU
     ALIYUN: xmtang/idea_u
+    PROJECTOR_STABLE: v1.7.0
 
 jobs:
-    bt-product-release:
+    build-ideaU:
         runs-on: ubuntu-latest
         steps:
+            -   name: Checkout server repo
+                uses: actions/checkout@v2
+                with:
+                    repository: JetBrains/projector-server
+                    path: projector-server
+                    ref: refs/tags/${{ env.PROJECTOR_STABLE }}
+
             -   uses: actions/checkout@v2 # pull代码到运行服务器上
             -   name: Login to Aliyun Container Registry (ACR)
                 uses: aliyun/acr-login@v1 # 使用阿里云镜像服务action
