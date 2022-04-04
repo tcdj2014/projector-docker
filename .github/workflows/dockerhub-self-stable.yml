@@ -46,5 +46,5 @@ jobs:
                 # docker build -t ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG .
                 run: |
                     ls -lh
-                    sh build-container_self.sh
+                    sh ./projector-docker/build-container_self.sh
                     docker push ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG
