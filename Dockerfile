@@ -61,8 +61,6 @@ RUN true \
 RUN true \
     && set -e \
     && set -x \
-    && sudo -i \
-    && su $PROJECTOR_USER_NAME \
     && /bin/bash source "$HOME/.sdkman/bin/sdkman-init.sh" \
     && sdk version \
     && sdk install java 8.0.322-zulu \
