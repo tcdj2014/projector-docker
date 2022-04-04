@@ -29,7 +29,6 @@ jobs:
                 with:
                     # repository: JetBrains/projector-docker
                     path: projector-docker
-                    branch: master
 
             -   name: Checkout projector-server repo
                 uses: actions/checkout@v2

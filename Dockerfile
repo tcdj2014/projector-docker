@@ -127,7 +127,10 @@ RUN true \
 # clean apt to reduce image size:
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
-    
+   
+USER $PROJECTOR_USER_NAME
+ENV HOME /home/$PROJECTOR_USER_NAME
+
 # 安装开发环境
 RUN curl -s "https://get.sdkman.io" | bash \
    && source "$HOME/.sdkman/bin/sdkman-init.sh" \
@@ -135,9 +138,6 @@ RUN curl -s "https://get.sdkman.io" | bash \
    && sdk list java \
    && sdk list gradle \
    && sdk list nodejs
-   
-USER $PROJECTOR_USER_NAME
-ENV HOME /home/$PROJECTOR_USER_NAME
 
 EXPOSE 8887
 
