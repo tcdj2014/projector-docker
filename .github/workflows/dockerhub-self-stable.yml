@@ -6,43 +6,32 @@ name: Docker Self Stable
 # documentation.
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
 
 env:
-  REGISTRY: registry.cn-shanghai.aliyuncs.com
-  IMAGE_NAME: ideaU
-  ALIYUN: xmtang/idea_u
+    REGISTRY: registry.cn-shanghai.aliyuncs.com
+    IMAGE_NAME: ideaU
+    ALIYUN: xmtang/idea_u
 
 jobs:
-  bt-product-release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          path: projector-docker
-
-      - name: Checkout server repo
-        uses: actions/checkout@v2
-        with:
-          repository: JetBrains/projector-server
-          path: projector-server
-          ref: refs/tags/${{ env.PROJECTOR_STABLE }}
-
-      -   uses: actions/checkout@v2 # pull代码到运行服务器上
-      -   name: Login to Aliyun Container Registry (ACR)
-          uses: aliyun/acr-login@v1 # 使用阿里云镜像服务action
-          with:
-            login-server: ${{ env.REGISTRY }} # 务必正确填写镜像容器服务的登录地址
-            region-id: cn-shanghai # 务必正确填写镜像容器服务的登录地址
-            username: ${{ secrets.Aliyun_Username }} # 引用GitHub repo设置的镜像容器服务用户名
-            password: ${{ secrets.Aliyun_Password }} # 引用GitHub repo设置的镜像容器服务密码
-      -   name: Build and Push Docker Image
-          env:
-            IMAGE_TAG: v1.0 # 用于标记容器版本号
-          run: |
-            docker build -t ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG .
-            docker push ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG
+    bt-product-release:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2 # pull代码到运行服务器上
+            -   name: Login to Aliyun Container Registry (ACR)
+                uses: aliyun/acr-login@v1 # 使用阿里云镜像服务action
+                with:
+                    login-server: ${{ env.REGISTRY }} # 务必正确填写镜像容器服务的登录地址
+                    region-id: cn-shanghai # 务必正确填写镜像容器服务的登录地址
+                    username: ${{ secrets.Aliyun_Username }} # 引用GitHub repo设置的镜像容器服务用户名
+                    password: ${{ secrets.Aliyun_Password }} # 引用GitHub repo设置的镜像容器服务密码
+            -   name: Build and Push Docker Image
+                env:
+                    IMAGE_TAG: v1.0 # 用于标记容器版本号
+                # docker build -t ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG .
+                run: |
+                    build-container_self.sh
+                    docker push ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG
