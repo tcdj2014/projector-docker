@@ -114,6 +114,19 @@ RUN true \
     && chown -R $PROJECTOR_USER_NAME.$PROJECTOR_USER_NAME /home/$PROJECTOR_USER_NAME \
     && chown -R $PROJECTOR_USER_NAME.$PROJECTOR_USER_NAME $PROJECTOR_DIR/ide/bin \
     && chown $PROJECTOR_USER_NAME.$PROJECTOR_USER_NAME run.sh
+
+RUN true \
+# Any command which returns non-zero exit code will cause this shell script to exit immediately:
+   && set -e \
+# Activate debugging to show execution details: all commands will be printed before execution
+   && set -x \
+# install packages:
+    && apt-get update \
+# packages for curl:
+    && apt-get install curl -y \
+# clean apt to reduce image size:
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/apt
     
 # 安装开发环境
 RUN curl -s "https://get.sdkman.io" | bash \
