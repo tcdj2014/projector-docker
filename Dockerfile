@@ -133,18 +133,19 @@ RUN true \
 USER $PROJECTOR_USER_NAME
 ENV HOME /home/$PROJECTOR_USER_NAME
 
-RUN whoami
-
 # 安装开发环境
 RUN curl -s "https://get.sdkman.io" | bash
 
-RUN exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-RUN sdk version
-RUN sdk install java 8.0.322-zulu
-RUN sdk install gradle 6.8
-RUN npm install -g coffee-script
-RUN npm install -g stylus
+RUN true \
+    && set -e \
+    && set -x \
+    && exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && sdk version \
+    && sdk version \
+    && sdk install java 8.0.322-zulu \
+    && sdk install gradle 6.8 \
+    && npm install -g coffee-script \
+    && npm install -g stylus
 
 EXPOSE 8887 9001
 
