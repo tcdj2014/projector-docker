@@ -21,8 +21,8 @@ RUN apt-get update
 RUN apt-get install wget -y
 # download IDE to the /ide dir:
 WORKDIR /download
-ARG downloadUrl
-RUN wget -q $downloadUrl -O - | tar -xz
+ARG DOWNLOAD_URL
+RUN wget -q $DOWNLOAD_URL -O - | tar -xz
 RUN find . -maxdepth 1 -type d -name * -execdir mv {} /ide \;
 
 FROM amazoncorretto:11 as projectorGradleBuilder
@@ -93,7 +93,7 @@ RUN true \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
 
-ARG downloadUrl
+ARG DOWNLOAD_URL
 
 RUN true \
 # Any command which returns non-zero exit code will cause this shell script to exit immediately:
@@ -102,9 +102,9 @@ RUN true \
     && set -x \
 # install specific packages for IDEs:
     && apt-get update \
-    && if [ "${downloadUrl#*CLion}" != "$downloadUrl" ]; then apt-get install build-essential clang -y; else echo "Not CLion"; fi \
-    && if [ "${downloadUrl#*pycharm}" != "$downloadUrl" ]; then apt-get install python2 python3 python3-distutils python3-pip python3-setuptools -y; else echo "Not pycharm"; fi \
-    && if [ "${downloadUrl#*rider}" != "$downloadUrl" ]; then apt install apt-transport-https dirmngr gnupg ca-certificates -y && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && echo "deb https://download.mono-project.com/repo/debian stable-buster main" | tee /etc/apt/sources.list.d/mono-official-stable.list && apt update && apt install mono-devel -y && apt install wget -y && wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb && apt-get update && apt-get install -y apt-transport-https && apt-get update && apt-get install -y dotnet-sdk-3.1 aspnetcore-runtime-3.1; else echo "Not rider"; fi \
+    && if [ "${DOWNLOAD_URL#*CLion}" != "$DOWNLOAD_URL" ]; then apt-get install build-essential clang -y; else echo "Not CLion"; fi \
+    && if [ "${DOWNLOAD_URL#*pycharm}" != "$DOWNLOAD_URL" ]; then apt-get install python2 python3 python3-distutils python3-pip python3-setuptools -y; else echo "Not pycharm"; fi \
+    && if [ "${DOWNLOAD_URL#*rider}" != "$DOWNLOAD_URL" ]; then apt install apt-transport-https dirmngr gnupg ca-certificates -y && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && echo "deb https://download.mono-project.com/repo/debian stable-buster main" | tee /etc/apt/sources.list.d/mono-official-stable.list && apt update && apt install mono-devel -y && apt install wget -y && wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb && apt-get update && apt-get install -y apt-transport-https && apt-get update && apt-get install -y dotnet-sdk-3.1 aspnetcore-runtime-3.1; else echo "Not rider"; fi \
 # clean apt to reduce image size:
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
@@ -136,16 +136,21 @@ ENV HOME /home/$PROJECTOR_USER_NAME
 # 安装开发环境
 RUN curl -s "https://get.sdkman.io" | bash
 
+ARG GIT_NAME
+ARG GIT_EMAIL
+
 RUN true \
     && set -e \
     && set -x \
-    && exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh" \
-    && sdk version \
-    && sdk version \
-    && sdk install java 8.0.322-zulu \
-    && sdk install gradle 6.8 \
-    && npm install -g coffee-script \
-    && npm install -g stylus
+    && bash source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && bash sdk version \
+    && bash sdk version \
+    && bash sdk install java 8.0.322-zulu \
+    && bash sdk install gradle 6.8 \
+    && bash npm install -g coffee-script \
+    && bash npm install -g stylus \
+    && bash git config --global user.name  $GIT_NAME \
+    && bash git config --global user.email  $GIT_EMAIL
 
 EXPOSE 8887 9001
 

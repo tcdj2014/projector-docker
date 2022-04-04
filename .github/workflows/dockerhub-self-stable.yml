@@ -50,8 +50,8 @@ jobs:
                 run: |
                     ls -lh
                     cd projector-docker
-                    DOCKER_BUILDKIT=1  docker build --progress=plain -t ${{ env.REGISTRY }}/${{ env.ALIYUN }}:${{ env.IMAGE_TAG }} --build-arg buildGradle=true --build-arg "downloadUrl=${{ env.DOWNLOAD_URL }}" -f Dockerfile ..
+                    DOCKER_BUILDKIT=1  docker build --progress=plain -t ${{ env.REGISTRY }}/${{ env.ALIYUN }}:${{ env.IMAGE_TAG }} --build-arg buildGradle=true --build-arg "DOWNLOAD_URL=${{ env.DOWNLOAD_URL }}" --build-arg "GIT_NAME=${{ secrets.GIT_NAME }}" --build-arg "GIT_EMAIL=${{ secrets.GIT_EMAIL }}" -f Dockerfile ..
                     docker push ${{ env.REGISTRY }}/${{ env.ALIYUN }}:${{ env.IMAGE_TAG }}
                     
-                    DOCKER_BUILDKIT=1  docker build --progress=plain -t ${{ env.REGISTRY }}/${{ env.ALIYUN }}:latest --build-arg buildGradle=true --build-arg "downloadUrl=${{ env.DOWNLOAD_URL }}" -f Dockerfile ..
+                    DOCKER_BUILDKIT=1  docker build --progress=plain -t ${{ env.REGISTRY }}/${{ env.ALIYUN }}:latest --build-arg buildGradle=true --build-arg "DOWNLOAD_URL=${{ env.DOWNLOAD_URL }}" --build-arg "GIT_NAME=${{ secrets.GIT_NAME }}" --build-arg "GIT_EMAIL=${{ secrets.GIT_EMAIL }}" -f Dockerfile ..
                     docker push ${{ env.REGISTRY }}/${{ env.ALIYUN }}:latest
