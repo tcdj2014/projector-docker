@@ -1,4 +1,4 @@
-name: Docker Publish Stable
+name: Docker self Stable
 
 on:
   push:
