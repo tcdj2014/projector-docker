@@ -56,7 +56,7 @@ ARG GIT_EMAIL
 RUN true \
     && set -e \
     && set -x \
-    && exec bash \
+    && exec bash
 
 RUN true \
     && set -e \
