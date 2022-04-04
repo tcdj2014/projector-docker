@@ -21,6 +21,11 @@ jobs:
     build-ideaU:
         runs-on: ubuntu-latest
         steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+                with:
+                    path: projector-docker
+
             -   name: Checkout server repo
                 uses: actions/checkout@v2
                 with:
@@ -28,7 +33,6 @@ jobs:
                     path: projector-server
                     ref: refs/tags/${{ env.PROJECTOR_STABLE }}
 
-            -   uses: actions/checkout@v2 # pull代码到运行服务器上
             -   name: Login to Aliyun Container Registry (ACR)
                 uses: aliyun/acr-login@v1 # 使用阿里云镜像服务action
                 with:
@@ -41,5 +45,6 @@ jobs:
                     IMAGE_TAG: v1.0 # 用于标记容器版本号
                 # docker build -t ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG .
                 run: |
+                    list -l
                     sh build-container_self.sh
                     docker push ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG
