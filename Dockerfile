@@ -131,13 +131,13 @@ RUN true \
 USER $PROJECTOR_USER_NAME
 ENV HOME /home/$PROJECTOR_USER_NAME
 
-# 安装开发环境
-RUN curl -s "https://get.sdkman.io" | bash \
-   && source "$HOME/.sdkman/bin/sdkman-init.sh" \
-   && sdk version \
-   && sdk list java \
-   && sdk list gradle \
-   && sdk list nodejs
+## 安装开发环境
+#RUN curl -s "https://get.sdkman.io" | bash \
+#   && exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh" \
+#   && sdk version \
+#   && sdk list java \
+#   && sdk list gradle \
+#   && sdk list nodejs
 
 EXPOSE 8887
 
