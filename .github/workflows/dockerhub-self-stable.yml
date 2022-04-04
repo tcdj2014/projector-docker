@@ -33,5 +33,5 @@ jobs:
                     IMAGE_TAG: v1.0 # 用于标记容器版本号
                 # docker build -t ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG .
                 run: |
-                    build-container_self.sh
+                    sh build-container_self.sh
                     docker push ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG
