@@ -16,6 +16,7 @@ env:
     IMAGE_NAME: ideaU
     ALIYUN: xmtang/idea_u
     PROJECTOR_STABLE: v1.7.0
+    IMAGE_TAG: v1.0 # 用于标记容器版本号
 
 jobs:
     build-ideaU:
@@ -30,7 +31,7 @@ jobs:
                 uses: actions/checkout@v2
                 with:
                     repository: JetBrains/projector-server
-                    path: projector-server
+                    path: projector/projector-server
                     ref: refs/tags/${{ env.PROJECTOR_STABLE }}
 
             -   name: Login to Aliyun Container Registry (ACR)
@@ -41,10 +42,10 @@ jobs:
                     username: ${{ secrets.Aliyun_Username }} # 引用GitHub repo设置的镜像容器服务用户名
                     password: ${{ secrets.Aliyun_Password }} # 引用GitHub repo设置的镜像容器服务密码
             -   name: Build and Push Docker Image
-                env:
-                    IMAGE_TAG: v1.0 # 用于标记容器版本号
+
                 # docker build -t ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG .
                 run: |
                     ls -lh
-                    sh ./projector-docker/build-container_self.sh
-                    docker push ${{ env.REGISTRY }}/$ALIYUN:$IMAGE_TAG
+                    cd projector-docker
+                    docker build --progress=plain -t ${{ env.REGISTRY }}/${{ env.$ALIYUN }}:${{ env.$IMAGE_TAG }} --build-arg buildGradle=true --build-arg "downloadUrl=$downloadUrl" -f Dockerfile ..
+                    docker push ${{ env.REGISTRY }}/${{ env.$ALIYUN }}:${{ env.$IMAGE_TAG }}
