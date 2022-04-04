@@ -32,7 +32,7 @@ jobs:
                 uses: actions/checkout@v2
                 with:
                     repository: JetBrains/projector-server
-                    path: projector/projector-server
+                    path: projector-server
                     ref: refs/tags/${{ env.PROJECTOR_STABLE }}
 
             -   name: Login to Aliyun Container Registry (ACR)
