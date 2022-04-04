@@ -56,8 +56,11 @@ ARG GIT_EMAIL
 RUN true \
     && set -e \
     && set -x \
-    && cat "$HOME/.sdkman/bin/sdkman-init.sh" \
-    && exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && exec bash \
+
+RUN true \
+    && set -e \
+    && set -x \ source "$HOME/.sdkman/bin/sdkman-init.sh" \
     && sdk version \
     && sdk install java 8.0.322-zulu \
     && sdk install gradle 6.8 \
