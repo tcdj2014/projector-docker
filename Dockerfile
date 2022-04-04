@@ -122,8 +122,8 @@ RUN true \
    && set -x \
 # install packages:
     && apt-get update \
-# packages for curl:
-    && apt-get install curl -y \
+# packages for sdkman:
+    && apt-get install curl zip unzip -y \
 # clean apt to reduce image size:
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
