@@ -7,28 +7,9 @@ RUN true \
    && set -x \
 # install packages:
     && apt-get update \
-# packages for awt:
-    && apt-get install libxext6 libxrender1 libxtst6 libxi6 libfreetype6 -y \
-# packages for user convenience:
-    && apt-get install git bash-completion sudo -y \
-# packages for IDEA (to disable warnings):
-    && apt-get install procps -y \
 # packages for sdkman:
     && apt-get install curl zip unzip -y \
-# packages for nodejs:
-    && apt-get install lsb-release gnupg gcc g++ make -y \
 # clean apt to reduce image size:
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /var/cache/apt
-
-# nodejs
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-
-RUN true \
-    && set -e \
-    && set -x \
-    && apt-get update \
-    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
 
@@ -61,11 +42,11 @@ RUN true \
 RUN true \
     && set -e \
     && set -x \
-    && sudo npm install -g coffee-script \
-    && sudo npm install -g stylus \
-    && sudo git config --global user.name  $GIT_NAME \
-    && sudo git config --global user.email  $GIT_EMAIL \
+    && git config --global user.name  "$GIT_NAME" \
+    && git config --global user.email  "$GIT_EMAIL" \
     && git config --list \
+    && cd /home/projector-user/.sdkman/bin/ \
+    && ls -lh \
     && /bin/bash source "/home/projector-user/.sdkman/bin/sdkman-init.sh" \
     && sdk version \
     && sdk install java 8.0.322-zulu \
