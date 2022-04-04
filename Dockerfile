@@ -44,7 +44,7 @@ RUN true \
     && set -x \
     && cd /home/projector-user/.sdkman/bin/ \
     && ls -lh \
-    && /bin/bash source "/home/projector-user/.sdkman/bin/sdkman-init.sh" \
+    && /bin/bash source sdkman-init.sh \
     && sdk version \
     && sdk install java 8.0.322-zulu \
     && sdk install gradle 6.8
