@@ -144,13 +144,12 @@ RUN true \
     && set -x \
     && pwd \
     && sudo npm install -g stylus \
-    && sido npm install -g coffee-script \
+    && sudo npm install -g coffee-script \
     && git config --global user.name  $GIT_NAME \
     && git config --global user.email  $GIT_EMAIL \
-    && git config --list \
-    && source "$HOME/.sdkman/bin/sdkman-init.sh"
-#
-#    && sdk version \
+    && git config --list
+
+#    && source "$HOME/.sdkman/bin/sdkman-init.sh"
 #    && sdk version \
 #    && sdk install java 8.0.322-zulu \
 #    && sdk install gradle 6.8
