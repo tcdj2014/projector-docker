@@ -17,6 +17,7 @@ env:
     ALIYUN: xmtang/idea_u
     PROJECTOR_STABLE: v1.7.0
     IMAGE_TAG: v1.0 # 用于标记容器版本号
+    DOWNLOAD_URL: https://download.jetbrains.com/idea/ideaIU-2019.3.5.tar.gz
 
 jobs:
     build-ideaU:
@@ -47,5 +48,5 @@ jobs:
                 run: |
                     ls -lh
                     cd projector-docker
-                    docker build --progress=plain -t ${{ env.REGISTRY }}/${{ env.ALIYUN }}:${{ env.IMAGE_TAG }} --build-arg buildGradle=true --build-arg "downloadUrl=$downloadUrl" -f Dockerfile ..
+                    docker build --progress=plain -t ${{ env.REGISTRY }}/${{ env.ALIYUN }}:${{ env.IMAGE_TAG }} --build-arg buildGradle=true --build-arg "downloadUrl=${{ env.DOWNLOAD_URL }}" -f Dockerfile ..
                     docker push ${{ env.REGISTRY }}/${{ env.ALIYUN }}:${{ env.IMAGE_TAG }}
