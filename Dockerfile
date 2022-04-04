@@ -76,7 +76,20 @@ RUN true \
     && apt-get install procps -y \
 # packages for sdkman:
     && apt-get install curl zip unzip -y \
+# packages for nodejs:
+    && apt-get install lsb-release gnupg gcc g++ make -y \
 # clean apt to reduce image size:
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/apt
+
+# nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+
+RUN true \
+    && set -e \
+    && set -x \
+    && apt-get update \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
 
@@ -120,14 +133,17 @@ RUN true \
 USER $PROJECTOR_USER_NAME
 ENV HOME /home/$PROJECTOR_USER_NAME
 
-## 安装开发环境
-#RUN curl -s "https://get.sdkman.io" | bash \
-#   && exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh" \
-#   && sdk version \
-#   && sdk list java \
-#   && sdk list gradle \
-#   && sdk list nodejs
+# 安装开发环境
+RUN curl -s "https://get.sdkman.io" | bash
 
-EXPOSE 8887
+RUN exec bash && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+RUN sdk version
+RUN sdk install java 8.0.322-zulu
+RUN sdk install gradle 6.8
+RUN npm install -g coffee-script
+RUN npm install -g stylus
+
+EXPOSE 8887 9001
 
 CMD ["bash", "-c", "/run.sh"]
