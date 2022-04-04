@@ -42,9 +42,6 @@ RUN true \
 RUN true \
     && set -e \
     && set -x \
-    && git config --global user.name  "$GIT_NAME" \
-    && git config --global user.email  "$GIT_EMAIL" \
-    && git config --list \
     && cd /home/projector-user/.sdkman/bin/ \
     && ls -lh \
     && /bin/bash source "/home/projector-user/.sdkman/bin/sdkman-init.sh" \
