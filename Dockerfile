@@ -60,7 +60,8 @@ RUN true \
 
 RUN true \
     && set -e \
-    && set -x \ source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && set -x \
+    && source "$HOME/.sdkman/bin/sdkman-init.sh" \
     && sdk version \
     && sdk install java 8.0.322-zulu \
     && sdk install gradle 6.8 \
