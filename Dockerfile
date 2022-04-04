@@ -40,7 +40,9 @@ RUN true \
 # Activate debugging to show execution details: all commands will be printed before execution
     && set -x \
     && useradd -d /home/$PROJECTOR_USER_NAME -s /bin/bash -G sudo $PROJECTOR_USER_NAME \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+    && mkdir -p /home/$PROJECTOR_USER_NAME \
+    && chmod $PROJECTOR_USER_NAME:$PROJECTOR_USER_NAME -R /home/$PROJECTOR_USER_NAME
    
 USER $PROJECTOR_USER_NAME
 ENV HOME /home/$PROJECTOR_USER_NAME
